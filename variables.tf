@@ -1,30 +1,43 @@
 variable "region" {
-  default     = "us-west-2"
   type        = string
   description = "Region of the VPC"
 }
 
-
 variable "cidr_block" {
-  default     = "10.0.0.0/16"
   type        = string
   description = "CIDR block for the VPC"
 }
 
 variable "public_subnet_cidr_blocks" {
-  default     = ["10.0.0.0/24", "10.0.2.0/24"]
-  type        = list
+  type        = list(string)
   description = "List of public subnet CIDR blocks"
 }
 
 variable "private_subnet_cidr_blocks" {
-  default     = ["10.0.1.0/24", "10.0.3.0/24"]
-  type        = list
+  type        = list(string)
   description = "List of private subnet CIDR blocks"
 }
 
 variable "availability_zones" {
-  default     = ["us-west-2a", "us-west-2b", "us-west-2c"]
-  type        = list
+  type        = list(string)
   description = "List of availability zones"
+}
+
+variable "public_subnet_name" {
+  type = string
+}
+variable "private_subnet_name" {
+  type = string
+}
+
+variable "vpc_name" {
+  type = string
+}
+
+variable "enable_dns_support" {
+  type = string
+}
+
+variable "enable_dns_hostnames" {
+  type = string
 }

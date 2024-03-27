@@ -20,26 +20,25 @@ resource "aws_subnet" "public_subnet" {
   cidr_block        = var.public_subnet_cidr_blocks[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = var.public_subnet_name
+    Name = "${var.public_subnet_name}${count.index + 1}"
   }
 }
 
 resource "aws_subnet" "private_subnet" {
+  count = length(var.private_subnet_cidr_block)
   vpc_id            = aws_vpc.main.id
-  cidr_block        = var.private_subnet_cidr_block
-  availability_zone = var.availability_zones[0]  # Assuming you want to place in the first AZ
+  cidr_block        = var.private_subnet_cidr_block[count.index]
+  availability_zone = var.availability_zones[count.index]  # Assuming you want to place in the first AZ
   tags = {
-    Name = var.private_subnet_name
+    Name = "${var.private_subnet_name}${count.index +1}"
   }
 }
-
 
 ################################################################
 # Create a Public Route Table
 ################################################################
 
 resource "aws_route_table" "public_route_table" {
-  count = length(aws_subnet.public_subnet)
   vpc_id = aws_vpc.main.id
   route {
     cidr_block = "0.0.0.0/0"
@@ -52,14 +51,21 @@ resource "aws_route_table" "public_route_table" {
 resource "aws_route_table_association" "public_subnet_association" {
   count          = length(aws_subnet.public_subnet)
   subnet_id      = aws_subnet.public_subnet[count.index].id
-  route_table_id = aws_route_table.public_route_table[count.index].id
+  route_table_id = aws_route_table.public_route_table.id
 }
 
-#resource "aws_route_table_association" "private" {
-#  for_each = aws_subnet.subnet_private
-#  subnet_id      = each.value.id
-#  route_table_id = aws_route_table.private[each.key].id
-#}
+resource "aws_route_table" "private_route_table" {
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "private_route_table"
+  }
+}
+
+resource "aws_route_table_association" "private_subnet_association" {
+  count          = length(aws_subnet.private_subnet)
+  subnet_id      = aws_subnet.private_subnet[count.index].id
+  route_table_id = aws_route_table.private_route_table.id
+}
 
 #####################################################################
 # Create an Internet Gateway

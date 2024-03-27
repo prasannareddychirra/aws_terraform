@@ -4,6 +4,7 @@
 # Terraform provider binary files
 .terraform/providers/*
 
+.terraform.lock.hcl
 
 # .tfstate files
 *.tfstate
