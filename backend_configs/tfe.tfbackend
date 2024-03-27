@@ -1,0 +1,5 @@
+bucket         = "tfe-backend-dev-us-east-1"
+key            = "global/s3/terraform.tfstate"
+region         = "us-east-1"
+#profile        = "dev"
+encrypt        = false
