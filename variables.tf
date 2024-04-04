@@ -49,7 +49,7 @@ variable "mario_cluster_name" {
   type = string
 }
 variable "mario_instance_type" {
-  type = string
+  type = list(string)
 }
 variable "mario_max_size" {
   type = string
