@@ -27,3 +27,6 @@ terraform init -backend-config backend_configs/tfe.tfbackend
  terraform apply -var-file variables/dev.tfvars
  ```
 
+## Authors
+
+- [prasannareddychirra](https://www.github.com/prasannareddychirra)

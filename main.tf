@@ -10,4 +10,17 @@ module "web_app_vpc" {
   vpc_cidr = var.cidr_block
   vpc_name = var.vpc_name
 }
-#########################################################
+
+###########################################################
+######### Super Mario Application Code ####################
+###########################################################
+module "super_mario" {
+  source = "./applications/super_mario"
+  cluster_name = "mario_eks_cluster"
+  desired_size = 1
+  instance_type = ["t2.medium"]
+  max_size = 2
+  min_size = 1
+  node_group_name = "mario_node_group"
+  subnet_ids = module.web_app_vpc.public_subnet_ids
+}
