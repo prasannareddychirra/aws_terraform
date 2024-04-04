@@ -41,3 +41,25 @@ variable "enable_dns_support" {
 variable "enable_dns_hostnames" {
   type = string
 }
+
+#########################################################################
+########################## Mario Application Variable ###################
+#########################################################################
+variable "mario_cluster_name" {
+  type = string
+}
+variable "mario_instance_type" {
+  type = string
+}
+variable "mario_max_size" {
+  type = string
+}
+variable "mario_desired_size" {
+  type = string
+}
+variable "mario_min_size" {
+  type = string
+}
+variable "mario_node_group_name" {
+  type = string
+}

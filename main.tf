@@ -14,13 +14,13 @@ module "web_app_vpc" {
 ###########################################################
 ######### Super Mario Application Code ####################
 ###########################################################
-#module "super_mario" {
-#  source = "./applications/super_mario"
-#  cluster_name = "mario_eks_cluster"
-#  desired_size = 1
-#  instance_type = ["t2.medium"]
-#  max_size = 2
-#  min_size = 1
-#  node_group_name = "mario_node_group"
-#  subnet_ids = module.web_app_vpc.public_subnet_ids
-#}
+module "super_mario" {
+  source = "./applications/super_mario"
+  cluster_name = var.mario_cluster_name
+desired_size      = var.mario_desired_size
+  instance_type   = var.mario_instance_type
+  max_size        = var.mario_max_size
+  min_size        = var.mario_min_size
+  node_group_name = var.mario_node_group_name
+  subnet_ids      = module.web_app_vpc.public_subnet_ids
+}

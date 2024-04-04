@@ -14,3 +14,12 @@ private_subnet_cidr_blocks = ["10.0.4.0/24"]
 public_subnet_name = "web_app_public_subnet"
 private_subnet_name = "web_app_private_subnet"
 
+######################################################################
+################### Mario Application Variable Values#################
+######################################################################
+mario_cluster_name = "Mario_eks_cluster"
+mario_instance_type = ["t2.medium"]
+mario_max_size = 2
+mario_desired_size = 1
+mario_min_size = 1
+mario_node_group_name = "Marion_Node_Group"
