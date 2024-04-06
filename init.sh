@@ -2,7 +2,7 @@
 # Define the path to the backend file
 BACKEND_FILE="backend_configs/tfe.tfbackend"
 TFVARS_FILE="variables/dev.tfvars"
-PLAN_ONLY="false"
+PLAN_ONLY="true"
 
 # Check if the backend file exists
 if [ -f "$BACKEND_FILE" ]; then
@@ -25,14 +25,24 @@ else
     TFVARS_FILE=$TFVARS_FILE
 fi
 
-# Check if environment variable PLAN_ONLY is set to true
-if [ "$PLAN_ONLY" = true ]; then
-    # If PLAN_ONLY is true, run 'terraform plan' with tfvars file
-    echo "Running 'terraform plan'..."
-    terraform plan -var-file="$TFVARS_FILE"
-else
-    # If PLAN_ONLY is not true, run 'terraform apply' with tfvars file
-    echo "Running 'terraform apply'..."
-    terraform apply -auto-approve -var-file="$TFVARS_FILE"
-fi
+# Validate the Terraform configuration
+echo "Running 'terraform validate'..."
+terraform validate
 
+# Check if the validation succeeded
+if [ $? -eq 0 ]; then
+    # If validation succeeded, proceed with plan or apply based on PLAN_ONLY variable
+    if [ "$PLAN_ONLY" = true ]; then
+        # If PLAN_ONLY is true, run 'terraform plan' with tfvars file
+        echo "Running 'terraform plan'..."
+        terraform plan -var-file="$TFVARS_FILE"
+    else
+        # If PLAN_ONLY is not true, run 'terraform apply' with tfvars file
+        echo "Running 'terraform apply'..."
+        terraform apply -auto-approve -var-file="$TFVARS_FILE"
+    fi
+else
+    # If validation failed, exit with non-zero status code
+    echo "Terraform validation failed. Exiting..."
+    exit 1
+fi
